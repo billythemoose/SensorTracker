@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="SensorTracker:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/SensorTracker_jar</output-path>
+    <root id="archive" name="SensorTracker.jar">
+      <element id="module-output" name="SensorTracker" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/SensorsLibs.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
