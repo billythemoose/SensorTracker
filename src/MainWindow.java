@@ -12,7 +12,6 @@ public class MainWindow {
     private JPanel rootPanel;
     private JButton readSensorsButton;
     private JProgressBar panel1bar;
-    private JLabel panel1label;
     private JPanel panel1;
     private JPanel panel2;
     private JPanel panel3;
@@ -39,10 +38,6 @@ public class MainWindow {
         panel3.setBorder(new TitledBorder(temperatureSensor.name()));
         panel3.setPreferredSize(new Dimension(300,100));
 
-        panel1label2.setText(pressureSensor.value() + pressureSensor.getUnits());
-        panel2label.setText(radiationSensor.value() + radiationSensor.getUnits());
-        panel3label.setText(temperatureSensor.value() + temperatureSensor.getUnits());
-
         panel1bar.setMinimum(0);
         panel1bar.setMaximum(100);
         panel2bar.setMinimum(0);
@@ -50,9 +45,9 @@ public class MainWindow {
         panel3bar.setMinimum(0);
         panel3bar.setMaximum(100);
 
-        panel1bar.setValue(pressureSensor.percentValue());
-        panel2bar.setValue(radiationSensor.percentValue());
-        panel3bar.setValue(temperatureSensor.percentValue());
+        updateValues(panel1label2, panel1bar, pressureSensor);
+        updateValues(panel2label, panel2bar, radiationSensor);
+        updateValues(panel3label, panel3bar, temperatureSensor);
 
         panel4.setLayout(new GridBagLayout());
         GridBagConstraints bagConstraints = new GridBagConstraints();
@@ -72,9 +67,31 @@ public class MainWindow {
         readSensorsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                updateValues(panel1label2, panel1bar, pressureSensor);
+                updateValues(panel2label, panel2bar, radiationSensor);
+                updateValues(panel3label, panel3bar, temperatureSensor);
             }
         });
+    }
+
+    public void updateValues(JLabel updatePanel, JProgressBar updateBar, SensorInterface updateSensor){
+        double newValue = updateSensor.value();
+        String updateText = newValue + updateSensor.getUnits();
+        Color updateColor = Color.orange;
+        String level = "CRITICAL --> ";
+        if (newValue > updateSensor.getMax()){
+            updateColor = Color.red;
+            level = "DANGER --> ";
+        }
+        else if (newValue < updateSensor.getMin()) {
+            updateColor = Color.green;
+            level = "OK -->";
+        }
+
+        updateText = level + updateText;
+        updatePanel.setText(updateText);
+        updateBar.setValue(updateSensor.percentValue());
+        updateBar.setForeground(updateColor);
     }
 
     public static void main(String[] args) {
@@ -83,9 +100,5 @@ public class MainWindow {
         temperatureSensor = new SensorAdapterTemperature(new TemperatureSensor());
 
         MainWindow window = new MainWindow();
-    }
-
-    public void updateProgressBar(JProgressBar bar) {
-
     }
 }

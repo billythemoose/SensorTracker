@@ -4,4 +4,6 @@ public interface SensorInterface {
     String report();
     String name();
     String getUnits();
+    double getMin();
+    double getMax();
 }
