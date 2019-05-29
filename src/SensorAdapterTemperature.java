@@ -1,7 +1,9 @@
 public class SensorAdapterTemperature implements SensorInterface{
     private sensor.TemperatureSensor sensorTemperature;
-    private double min = 235;
-    private double max = 300;
+    private double min = 185;
+    private double max = 350;
+    private double critMin = 235;
+    private double critMax = 300;
     private String units = " °C";
     private double actualValue = 0;
     private int percentValue = 0;
@@ -28,10 +30,10 @@ public class SensorAdapterTemperature implements SensorInterface{
             return 100;
         }
         if (this.actualValue < min) {
-            return 0;
+            return 1;
         }
 
-        this.percentValue = (int)(((this.max - this.actualValue) / (this.max - this.min)) * 100);
+        this.percentValue = (int)(((this.actualValue - this.min) * 100) / (this.max - this.min));
         return this.percentValue;
     }
 

@@ -2,8 +2,10 @@
 
 public class SensorAdapterRadiation implements SensorInterface{
     private sensor.RadiationSensor sensorRadiation;
-    private double min = 3;
-    private double max = 4;
+    private double min = 1;
+    private double max = 6;
+    private double critMin = 3;
+    private double critMax = 4;
     private String units = " rad";
     private double actualValue = 0;
     private int percentValue = 0;
@@ -32,10 +34,10 @@ public class SensorAdapterRadiation implements SensorInterface{
             return 100;
         }
         if (this.actualValue < min) {
-            return 0;
+            return 1;
         }
 
-        this.percentValue = (int)(((this.max - this.actualValue) / (this.max - this.min)) * 100);
+        this.percentValue = (int)(((this.actualValue - this.min) * 100) / (this.max - this.min));
         return this.percentValue;
     }
 

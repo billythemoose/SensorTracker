@@ -1,9 +1,9 @@
 public class SensorAdapterPressure implements SensorInterface{
     private sensor.PressureSensor sensorPressure;
-    private double min = 5;
-    private double max = 6.58;
-    private int percentMin = 0;
-    private int percentMax = 0;
+    private double min = 4;
+    private double max = 7;
+    private double critMin = 5;
+    private double critMax = 6.58;
     private String units = " bar";
     private double actualValue = 0;
     private int percentValue = 0;
@@ -23,10 +23,10 @@ public class SensorAdapterPressure implements SensorInterface{
             return 100;
         }
         if (this.actualValue < min) {
-            return 0;
+            return 1;
         }
 
-        this.percentValue = (int)(((this.max - this.actualValue) / (this.max - this.min)) * 100);
+        this.percentValue = (int)(((this.actualValue - this.min) * 100) / (this.max - this.min));
         return this.percentValue;
     }
 
